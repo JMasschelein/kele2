@@ -18,6 +18,21 @@ class Kele
     raise "Invalid Email or Password" if response.code != 200
     @auth_token = response["auth_token"]
   end
+  
+  def get_me
+    headers = {
+      headers: {
+        :content_type => 'application/json',
+        :authorization => @auth_token
+      }
+    }
+    response = self.class.get(base_url('users/me'), headers)
+    return @user_data = JSON.parse(response.body)
+  end
+  
+    def get_mentor_availability(id)
+    response = self.class.get("https://www.bloc.io/api/v1/mentors/#{id}/student_availability")
+  end
 
   private
 
